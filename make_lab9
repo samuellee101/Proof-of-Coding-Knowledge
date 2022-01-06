@@ -1,7 +1,0 @@
-#Francisco Hernandez Jr.
-#Jonathan Leal
-#Edwin Lozano
-#Samuel Lee
-.PHONY: lab9
-lab9: lab9.c lab9fun.c
-	gcc lab9.c lab9fun.c -o lab9
