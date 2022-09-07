@@ -1,0 +1,455 @@
+/ Creates a new Autocompleter with an empty dictionary.
+//
+// Must run in O(1) time.
+Autocompleter::Autocompleter()
+{
+	root = nullptr;
+}
+
+// Adds a string x to the dictionary.
+// If x is already in the dictionary, does nothing.
+//
+// Must run in O(log(n)) time.
+void Autocompleter::insert(string x, int freq) 
+{
+	Entry E;
+	E.s = x;
+	E.freq = freq;
+	insert_recurse(E, root);
+}
+
+// Returns the number of strings in the dictionary
+// of possible completions.
+//
+// Must run in O(n) time.
+int Autocompleter::size()
+{
+	return size_recurse(root);
+}
+
+// Fills the vector T with the three most-frequent completions of x.
+// If x has less than three completions, then
+// T is filled with all completions of x.
+// The completions appear in T from most to least frequent.
+//
+// Must run in O(klog(n)) time for k>=1,
+// where k is the number of completions of x in the dictionary.
+void Autocompleter::completions(string x, vector<string>& T)
+{
+	vector<Entry> top_3;
+	vector<string> top;
+	completions_recurse(x, root, top_3);
+	if (top_3.size() == 3)
+	{
+		top.push_back(top_3[0].s);
+		top.push_back(top_3[1].s);
+		top.push_back(top_3[2].s);
+	}
+	else if (top_3.size() == 2)
+	{
+		top.push_back(top_3[0].s);
+		top.push_back(top_3[1].s);
+	}
+	else if (top_3.size() == 1)
+	{
+		top.push_back(top_3[0].s);
+	}
+	T = top;
+}
+
+//Remove x from the dictionary.
+//If x is not present in the dictionary, does nothing.
+//After removal, tree must remain AVL balanced.
+//
+//Must run in O(log n) time.
+void Autocompleter::remove(string x)
+{
+	remove_recurse(x, root);
+	
+}
+
+// Optional helper methods (you'll probably want them)
+
+	// Returns the size of the binary tree rooted at root.
+	//
+	// Should run in O(n) time.
+int Autocompleter::size_recurse(Node* root)
+{
+	int size = 1;
+	if (root == nullptr)
+		return 0;
+	else
+	{
+		size = size + size_recurse(root->left);
+		size = size + size_recurse(root->right);
+		return size;
+	}
+}
+// Fills C with the completions of x in the BST rooted at root.
+//
+// Should run in O(klog(n)) for k>=1, where
+// -n is the size of the BST rooted at root.
+// -k is the number of Entrys in the BST rooted at root
+//  whose strings start with x.
+void Autocompleter::completions_recurse(string x, Node* root, vector<Entry>& C)
+{
+	// Once it reaches a null pointer
+	if (root == nullptr)
+		return;
+	// Store the node's word
+	string temp = root->e.s;
+	// Size of the user input
+	int size = x.length();
+	// Will reduce the node's word to check if it's right
+	temp = temp.substr(0, size);
+	// Will compare once they have the same size
+	if (x == temp)
+	{
+		// Will push the current node into the list
+		C.push_back(root->e);
+		// List is bigger than 3
+		if (C.size() > 3)
+		{
+			// Will hold the last value
+			Entry Helper = C[3];
+			// If the newest item is bigger than the 1st item on the list
+			if (C[0].freq < C[3].freq)
+			{
+				biggest(C[3], C);
+				C.pop_back();
+			}
+			// If the newest item is bigger than the 2nd item
+			else if (C[1].freq < C[3].freq)
+			{
+				medium(C[3], C);
+				C.pop_back();
+			}
+			// if the newest item is bigger than the 3rd
+			else if (C[2].freq < C[3].freq)
+			{
+				smallest(C[3], C);
+				C.pop_back();
+			}
+			// If all the items are bigger then the newest item
+			else
+				C.pop_back();
+		}
+		// Less than 3 items on the list 
+		else
+		{
+			// When the size is less than 3 and bigger than 1
+			if (C.size() > 1)
+			{
+				// When the size is only 2 
+				if (C.size() == 2)
+				{
+					if (C[0].freq < C[1].freq)
+					{
+						biggest(C[1], C);
+					}
+				}
+				// when the size is 3
+				else
+				{
+					// Variable that stores the latest item
+					Entry Help = C[2];
+					// Checks if the 1st item is lower than the newest value
+					if (C[0].freq < C[2].freq)
+					{
+						biggest(C[2], C);
+					}
+					// Checks if the 2nd item is lower than the newest item
+					else if (C[1].freq < C[2].freq)
+					{
+						medium(C[2], C);
+					}
+
+				}
+			}
+		}
+		// Keeps recursing on the left side
+		completions_recurse(x, root->left, C);
+		// Keeps recursing on the right side
+		completions_recurse(x, root->right, C);
+
+	}
+	else if (x < temp)
+	{
+		completions_recurse(x, root->left, C);
+	}
+	else if (x > temp)
+	{
+		completions_recurse(x, root->right, C);
+	}
+}
+void Autocompleter::biggest(Entry x, vector<Entry>& C)
+{
+	// Changes the biggest item vector item when there is more than 3 items
+	if (C.size() > 3)
+	{
+		// Reassigns the values without loosing any of them
+		C[3] = C[2];
+		C[2] = C[1];
+		C[1] = C[0];
+		C[0] = x;
+	}
+	// Changes the biggest vector item when there is 2 items
+	else if (C.size() == 2)
+	{
+		// Reassigns the values without loosing any of them
+		C[1] = C[0];
+		C[0] = x;
+	}
+	// Changes the biggest vector item when there is 3 items
+	else
+	{
+		// Reassigns the values without loosing any of them
+		C[2] = C[1];
+		C[1] = C[0];
+		C[0] = x;
+	}
+}
+
+void Autocompleter::medium(Entry x, vector<Entry>& C)
+{
+	// Changes the medium value if there are more than 3 items
+	if (C.size() > 3)
+	{
+		// Reassigns them without lossing any of the data
+		C[3] = C[2];
+		C[2] = C[1];
+		C[1] = x;
+	}
+	// Changes the medium value if there are 3 items
+	else
+	{
+		// Reassigns them without lossing any of the data
+		C[2] = C[1];
+		C[1] = x;
+	}
+}
+
+void Autocompleter::smallest(Entry x, vector<Entry>& C)
+{
+	// Reassigns them without lossing any of the data
+	C[3] = C[2];
+	C[2] = x;
+}
+// Inserts an Entry into an AVL tree rooted at root.
+//
+// Should run in O(log(n)) time.
+void Autocompleter::insert_recurse(Entry e, Node*& root)
+{
+	if (root == nullptr)
+	{
+		root = new Node(e);
+	}
+	else
+	{
+		if (e.s < root->e.s)
+		{
+			insert_recurse(e, root->left);
+		}
+		else
+		{
+			insert_recurse(e, root->right);
+		}
+
+		update_height(root);
+		rebalance(root);
+	}
+}
+
+// Rebalances the AVL tree rooted at root.
+// Helpful for insert().
+// Should be called on every node visited during
+// the search in reverse search order.
+//
+// Should run in O(1) time.
+void Autocompleter::rebalance(Node*& root)
+{
+	if (root == nullptr)
+		return;
+
+	if (height(root->right) > height(root->left) + 1) //Right tree too high!
+	{
+		if (height(root->right->right) > height(root->right->left))
+		{
+			left_rotate(root);
+		}
+		else // right-left subtree is higher
+		{
+			RLDouble(root);
+		}
+	}
+	else if (height(root->left) > height(root->right) + 1) //Left tree too high!
+	{
+		if (height(root->left->left) > height(root->left->right))
+		{
+			right_rotate(root);
+		}
+		else
+		{
+			LRDouble(root);
+		}
+	}
+	else
+	{
+		//Tree is fine, don't need to rotate anything.
+	}
+}
+// Perform left and right rotations around the root
+// of an AVL tree (helpful for implementing rebalance).
+//
+// Should run in O(1) time.
+void Autocompleter::right_rotate(Node*& root)
+{
+	Node* A = root;
+	Node* B = root->left;
+	Node* br = B->right;
+
+	root = B;
+	B->right = A;
+	A->left = br;
+
+	update_height(A);
+	update_height(B);
+}
+
+void Autocompleter::left_rotate(Node*& root)
+{
+	Node* A = root;
+	Node* B = root->right;
+	Node* bl = B->left;
+
+	root = B;
+	B->left = A;
+	A->right = bl;
+
+	//One more step: heights of nodes might have changed
+	update_height(A);
+	update_height(B);
+}
+void Autocompleter::RLDouble(Node*& root)
+{
+	right_rotate(root->right);
+	left_rotate(root);
+}
+void Autocompleter::LRDouble(Node*& root)
+{
+	left_rotate(root->left);
+	right_rotate(root);
+}
+
+
+//A useful method to update
+//the height of a node,
+//assuming subtrees already have
+//the correct height.
+void Autocompleter::update_height(Node*& root)
+{
+	if (root != nullptr)
+		root->height = 1 + max(height(root->left), height(root->right));
+}
+
+//A recursive removal routine.
+//Tree should maintain AVL balance after this is called.
+//Should run in O(log n) time.
+//
+//Suggested implementation:
+//If x is not at the root, recursively remove x from either the right or left subtree.
+//If x is at the root, then check if the root is either a leaf or has just one child.
+//If so, get rid of the node easily by moving the parent pointer to point to the child tree.  Don't forget to delete the node.
+//If the node has two non-empty subtrees, then remove the alphabetically smallest item from the right subtree,
+//(see the suggested helper method 'extractMin') and place that removed entry into the current node.
+//After removing x, you also need to update node heights, check for balance, and apply a rotation if needed.
+void Autocompleter::remove_recurse(string x, Node*& root)
+{
+	if (root == nullptr)
+	{
+		//empty tree, x not present, do nothing
+	}
+	else if (x == root->e.s)
+	{
+		
+		//Found x, must get rid of it.....
+		if (root->left == nullptr && root->right == nullptr)  //p has no children
+		{
+			delete root;
+			root = nullptr;
+		}
+		else if (root->right == nullptr) //p has 1 left child
+		{
+			Node* doomednode = root;
+			root = root->left;
+			delete doomednode;
+		}
+		else if (root->left == nullptr) //p has 1 right child
+		{
+			Node* doomednode = root;
+			root = root->right;
+			delete doomednode;
+		}
+		else //2 children..... oh no!  This is super hard
+		{
+			root->e = extractMin(root->right);
+		}
+	}
+	else
+	{
+		if (x < root->e.s)
+		{
+			remove_recurse(x, root->left);
+			
+		}
+		else
+		{
+			remove_recurse(x, root->right);
+
+		}
+		
+		//balanced(root);
+	}
+	rebalance(root);
+	update_height(root);
+}
+
+//Remove and return the entry
+//with the smallest (alphabetically) word
+//in the given subtree.
+//This method is useful as a helper routine in the recursive remove method.
+//The tree must be AVL blananced after calling this method.
+//Should run in O(log n) time.
+Autocompleter::Entry Autocompleter::extractMin(Node*& root)
+{
+	//Checks if the pointer that has the smallest value is not empty
+	if (root->left != nullptr)
+		return extractMin(root->left);
+	// if the next node is empty will get the data and delete the node
+	else
+	{
+		// if the node is a leaf
+		if (root->right == nullptr)
+		{
+			// Get value of such leaf
+			Entry data = root->e;
+			delete root;
+			root = nullptr;
+			return data;
+			// Returns the data
+		}
+		// If the pointer has a right node
+		else if (root->right != nullptr)
+		{
+			Node* temp = root;
+			// Creates a temporary node
+			Entry data = temp->e;
+			// Then stores that data into
+			// Points to the next node
+			root = root->right;
+			delete temp;
+			return data;
+			// Returns the data
+		}
+	}
+}

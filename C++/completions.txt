@@ -1,0 +1,168 @@
+void Autocompleter::completions(string x, vector<string>& T)
+{
+	vector<Entry> top_3;
+	vector<string> top;
+	completions_recurse(x, root, top_3);
+	if (top_3.size() == 3)
+	{
+		top.push_back(top_3[0].s);
+		top.push_back(top_3[1].s);
+		top.push_back(top_3[2].s);
+	}
+	else if (top_3.size() == 2)
+	{
+		top.push_back(top_3[0].s);
+		top.push_back(top_3[1].s);
+	}
+	else if (top_3.size() == 1)
+	{
+		top.push_back(top_3[0].s);
+	}
+	T = top;
+}
+
+void Autocompleter::completions_recurse(string x, Node* root, vector<Entry>& C)
+{
+	// Once it reaches a null pointer
+	if (root == nullptr)
+		return;
+	// Store the node's word
+	string temp = root->e.s;
+	// Size of the user input
+	int size = x.length();
+	// Will reduce the node's word to check if it's right
+	temp = temp.substr(0, size);
+	// Will compare once they have the same size
+	if (x == temp)
+	{
+		// Will push the current node into the list
+		C.push_back(root->e);
+		// List is bigger than 3
+		if (C.size() > 3)
+		{
+			// Will hold the last value
+			Entry Helper = C[3];
+			// If the newest item is bigger than the 1st item on the list
+			if (C[0].freq < C[3].freq)
+			{
+				biggest(C[3], C);
+				C.pop_back();
+			}
+			// If the newest item is bigger than the 2nd item
+			else if (C[1].freq < C[3].freq)
+			{
+				medium(C[3], C);
+				C.pop_back();
+			}
+			// if the newest item is bigger than the 3rd
+			else if (C[2].freq < C[3].freq)
+			{
+				smallest(C[3], C);
+				C.pop_back();
+			}
+			// If all the items are bigger then the newest item
+			else
+				C.pop_back();
+		}
+		// Less than 3 items on the list 
+		else
+		{
+			// When the size is less than 3 and bigger than 1
+			if (C.size() > 1)
+			{
+				// When the size is only 2 
+				if (C.size() == 2)
+				{
+					if (C[0].freq < C[1].freq)
+					{
+						biggest(C[1], C);
+					}
+				}
+				// when the size is 3
+				else
+				{
+					// Variable that stores the latest item
+					Entry Help = C[2];
+					// Checks if the 1st item is lower than the newest value
+					if (C[0].freq < C[2].freq)
+					{
+						biggest(C[2], C);
+					}
+					// Checks if the 2nd item is lower than the newest item
+					else if (C[1].freq < C[2].freq)
+					{
+						medium(C[2], C);
+					}
+
+				}
+			}
+		}
+		// Keeps recursing on the left side
+		completions_recurse(x, root->left, C);
+		// Keeps recursing on the right side
+		completions_recurse(x, root->right, C);
+
+	}
+	else if (x < temp)
+	{
+		completions_recurse(x, root->left, C);
+	}
+	else if (x > temp)
+	{
+		completions_recurse(x, root->right, C);
+	}
+}
+
+void Autocompleter::biggest(Entry x, vector<Entry>& C)
+{
+	// Changes the biggest item vector item when there is more than 3 items
+	if (C.size() > 3)
+	{
+		// Reassigns the values without loosing any of them
+		C[3] = C[2];
+		C[2] = C[1];
+		C[1] = C[0];
+		C[0] = x;
+	}
+	// Changes the biggest vector item when there is 2 items
+	else if (C.size() == 2)
+	{
+		// Reassigns the values without loosing any of them
+		C[1] = C[0];
+		C[0] = x;
+	}
+	// Changes the biggest vector item when there is 3 items
+	else
+	{
+		// Reassigns the values without loosing any of them
+		C[2] = C[1];
+		C[1] = C[0];
+		C[0] = x;
+	}
+}
+
+void Autocompleter::medium(Entry x, vector<Entry>& C)
+{
+	// Changes the medium value if there are more than 3 items
+	if (C.size() > 3)
+	{
+		// Reassigns them without lossing any of the data
+		C[3] = C[2];
+		C[2] = C[1];
+		C[1] = x;
+	}
+	// Changes the medium value if there are 3 items
+	else
+	{
+		// Reassigns them without lossing any of the data
+		C[2] = C[1];
+		C[1] = x;
+	}
+}
+
+void Autocompleter::smallest(Entry x, vector<Entry>& C)
+{
+	// Reassigns them without lossing any of the data
+	C[3] = C[2];
+	C[2] = x;
+}
