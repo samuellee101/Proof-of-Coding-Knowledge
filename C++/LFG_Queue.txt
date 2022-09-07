@@ -1,0 +1,84 @@
+```LFGQueue::LFGQueue()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		heads[i] = nullptr;				// Initialize's head to nullptr
+		tails[i] = nullptr;				// Initialize's tails to nullptr
+		counts[i] = 0;					// Initialize's the count to zero
+	}
+}
+
+int LFGQueue::size()
+{
+	int x = 0;
+	for (int i = 0; i < 3; ++i)		// Creates a loop that holds the three classes and how many times it loops
+	{
+		x += counts[i];
+	}
+	return x;
+}
+
+void LFGQueue::push_player(Player* p)
+{
+	Node *A = new Node;                  // Auxiliary class object to store or reassign the new value being pushed
+	A->p = p;							 // Assigns the value of p into the aux function
+	if (tails[p->role()] != nullptr)	 // Assigns tail == nullptr
+		tails[p->role()]->next = A;			 // Exception Violation
+	tails[p->role()] = A;
+	A->next = nullptr;
+	if (heads[p->role()] == nullptr)
+		heads[p->role()] = A;
+
+	++counts[p->role()];
+}
+
+Player* LFGQueue::front_player(Player::Role r)
+{
+	if (heads[r] != nullptr)					// Makes sure that head is initialize correctly
+	{
+		return heads[r]->p;						// Returns the value of head
+	}
+	else
+		return nullptr;
+}
+
+void LFGQueue::pop_player(Player::Role r)
+{
+	if (heads[r] == nullptr)	// Checks if head does not have anything
+	{
+		//tails[r] = nullptr;
+		return;					// If it does not have anything returns noting
+	}
+	Node* P = heads[r]->next;
+	
+	heads[r] = P;  // Assigns the value that is in next
+	
+	if(P != nullptr)
+		P = nullptr;
+	--counts[r];
+//	delete killThis;
+	//delete P;
+}
+
+bool LFGQueue::front_group(Player** group)
+{
+	group[0] = front_player(Player::Defender);         // Assigns the first group to the first part of the 
+	group[1] = front_player(Player::Hunter);
+	group[2] = front_player(Player::Bard);
+	if (group[0] != nullptr && group[1] != nullptr && group[2] != nullptr)  // Checks that they don't have nullptr
+		return true;
+	else                                                                   // If they do return false
+		return false;
+}
+
+void LFGQueue::pop_group()
+{
+	if (front_player(Player::Defender) != nullptr && front_player(Player::Hunter) != nullptr && front_player(Player::Bard) != nullptr)   // Checks if everything is initialize
+	{
+		pop_player(Player::Defender);
+		pop_player(Player::Hunter);
+		pop_player(Player::Bard);
+	}
+	else                                                                                                                               // If any of the classes contains nothing it would do nothing
+		return;
+}```
