@@ -1,0 +1,60 @@
+# ======================================================================
+# Script name: lab6scr_2344_t06
+# By: Francisco Hernandez Jr,Jonathan Leal, Edwin Lozano, Samuel Lee
+# Date: 10/26/21
+# Purpose: Get information from judgeHSPC05.txt and etc.passwd
+# ======================================================================
+
+
+#!/bin/sh
+echo "==Answer to question 1=="
+
+grep -rn 'Problem 12\|Problem 13' judgeHSPC05.txt
+
+echo "==Answer to question 2=="
+
+grep -ic 'problem' judgeHSPC05.txt
+
+echo "==Answer to question 3=="
+
+grep -c '^[[:upper:]]\|^\.' judgeHSPC05.txt
+
+echo "==Answer to question 4=="
+
+grep -c '^\.\*' judgeHSPC05.txt
+
+echo "==Answer to question 5=="
+
+grep -c '?$\|\.$' judgeHSPC05.txt
+
+echo "==Answer to question 6=="
+
+grep -wc '\$[0-9][0-9]' judgeHSPC05.txt
+
+echo "==Answer to question 7=="
+
+grep -Ewci '[A-Z]{6}' judgeHSPC05.txt
+
+echo "==Answer to question 8=="
+
+grep -vci '^[A-Z]' judgeHSPC05.txt
+
+echo "==Answer to question 9=="
+
+awk -F: '/daemon/ {print $1}' etc.passwd
+
+echo "==Answer to question 10=="
+
+awk -F: 'BEGIN{a=1001}{if($4 < a)print $4| "sort -nu"}' etc.passwd
+
+echo "==Answer to question 11=="
+
+awk -F: '{if ($7=="/bin/bash")print $1|"sort -r"}' etc.passwd
+
+echo "==Answer to question 12=="
+
+awk -F: '{if ($5 == "")print $1 ":" $3}' etc.passwd
+
+echo "==Answer to question 13=="
+
+awk -F: 'BEGIN {a=0}{if(($4==44)||($4==100))a= a+1} END {print a}' etc.passwd

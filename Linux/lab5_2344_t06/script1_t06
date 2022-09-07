@@ -1,0 +1,17 @@
+echo "============ Script 1A ============ "
+echo " "
+
+ls -l |awk '{split($1,a,""); if(a[1]== "-"){printf "%15s\t%8s\n",  $10, $6} else{}}'
+
+echo " "
+
+echo "============ Script 1B ============ "
+echo " "
+ls -la |awk 'BEGIN {printf "%15s\t%8s\n\n","Name","Size"  } {split($10,a,"");split($1,b,"");  if(a[1]=="." && b[1]!= "d") {printf "%15s\t%8s\n",$10, $6} else{} }'
+echo " "
+echo "============ Script 1C ============ "
+echo " "
+ls -l|grep '\.c$' |awk 'BEGIN {printf "%10s\t%s\t%s\n\n","Name","Size", "Access"  };{printf "%10s\t%s\t%s\n", $10, $6, $1 }'
+echo " "
+echo "=================================== "
+

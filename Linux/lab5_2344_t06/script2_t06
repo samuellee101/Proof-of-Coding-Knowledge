@@ -1,0 +1,18 @@
+BEGIN {print"============= Script 2 ==============="   }
+{
+       if ($1 == "next"|| $1 == "the"||$1 ==  "separator"){
+       print "Average " a/i;
+	a=0;
+	i=0;
+	}
+	else {
+	print $1;
+	a  += $1;
+	i += 1;
+	
+
+}
+
+
+}
+END {print"==================================== "  }

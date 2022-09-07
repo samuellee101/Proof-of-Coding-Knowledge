@@ -1,0 +1,24 @@
+Questions -T#06- Francisco Hernandez Jr., Jonathan Leal, Samuel Lee and Edwin Lozano
+
+1. mv eastcoast/illinois eastcoast/indiana/ -t midwest/
+
+2. a) ls -l **/*/*n*
+   b) ls -l **/*/n*
+   c) ls -l **/*/*[aeiou]**[aeiou]**[aeiou]*
+   d) ls -l */
+
+3. cp /files/labs/lab4/{corp_phones[1-2],product*,vendors} .
+
+4. cat product1 product2 > lab4.txt
+
+5. paste -d '#' product1 product2 >> lab4.txt
+
+6. a) cut -d: -f '3 4 5 8' corp_phones1 >> lab4.txt
+   b) cut -c9-13,14-26,27-35,43-58 corp_phones2 >> lab4.txt
+
+7. a) sort -u  -k 2 corp_phones2 >> lab4.txt
+    b) sort -u -k 4 corp_phones2 >> lab4.txt
+    c) sort -u -b -k 5 corp_phones2 >> lab4.txt
+
+8. join -a1 -e "No Vendor" -1 3 -2 1 -o '1.1 1.2 2.2' -t: products vendors  >> lab4.txt
+
