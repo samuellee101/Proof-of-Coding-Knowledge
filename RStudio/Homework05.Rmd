@@ -1,0 +1,256 @@
+---
+title: "Homework No 5"
+author:
+- UTRGV School of Mathematical and Statistical Sciences
+- STAT 3301 Applied Statistics
+- John Smith
+output:  html_notebook
+---
+
+---
+
+>**Objective:** Use R studio to solve problems involving Statistical Inference,
+and Hypothesis Testing.
+
+---
+
+Use R to solve the following problems. Show your work and state your conclusions.
+
+#### Problem 1
+Listed below are weights (hectograms, or hg) of randomly selected girls at birth,
+based on data from the National Center for Health Statistics. Use the sample data to construct a
+95% confidence interval for the mean birth weight of girls. Since the sample size es not large enough for
+CLT to apply, display a supporting the assumption that weights of girls at birth are at least approximately
+normal. (Answer: We are 95% confident that the limits of 29.2 hg and 32.5 hg actually do contain
+the value of the population mean)
+```{r}
+weights <- c(33, 28, 33, 37, 31, 32, 31, 28, 34, 28, 33, 26, 30, 31, 28)
+meanie <- mean(weights)
+t <- 2.14479
+n <- 15
+#alpha <- 0.05
+s <- sd(weights)
+margin <- qt(0.975,df=n-1)*s/sqrt(n)
+lowerinterval <- meanie - margin
+lowerinterval
+upperinterval <- meanie + margin
+upperinterval
+```
+
+
+
+#### Problem 2
+Repeat Problem 1 this time assuming that $\sigma$ is known to be 2.9 hg using a confidence of 98%.
+
+```{r}
+#alpha <- 0.02
+lowerinterval <- meanie - 2.3263 * s / sqrt(15)
+lowerinterval
+upperinterval <- meanie + 2.3263 * s / sqrt(15)
+upperinterval
+```
+
+
+#### Problem 3
+In a clinical trial of OxyContin (oxycodone), 16 subjects experienced headaches
+among the 227 subjects treated with OxyContin. Construct a 95% confidence interval for
+the proportion of treated subjects who experience headaches.
+
+```{r}
+lowerinterval <- 0.0705-1.96*sqrt(.0705*(1-.0705)/227)
+lowerinterval
+upperinterval <- 0.0705+1.96*sqrt(.0705*(1-.0705)/227)
+upperinterval
+```
+
+
+#### Problem 4
+A study of sleepwalking or “nocturnal wandering” was described in the journal
+*Neurology*, and it included information that 29.2% of 19,136 American adults have
+sleepwalked. Would a reporter be justified in stating that “fewer than 30% of adults have sleepwalked”?
+Let’s use a 0.05 significance level to test the claim that for the adult population,
+the proportion of those who have sleepwalked is less than 0.30.
+
+```{r}
+#Values given:
+n = 19136
+p = .292
+p_o = 0.3
+cat("claim: p<0.30\n")
+z <- (p - p_o) / sqrt(((1-p_o)*p_o)/n)
+cat("z = ")
+cat(z)
+cat("\nCorresponding p value is 0.0080")
+cat("\nReject the null hypothesis, because p-value is less than alpha 0.05.")
+cat("\nThere is sufficient evidence to support the claim that the true popuilation proportion is less than 0.30.")
+```
+
+
+#### Problem 5
+The authors of a study obtained times of sleep for randomly selected adult subjects included
+in the National Health and Nutrition Examination Study, and those times
+(hours) are listed below. A common recommendation is
+that adults should sleep between 7 hours and 9 hours each night. Use the P-value
+method with a 0.05 significance level to test the claim that the mean amount of
+sleep for adults is less than 7 hours. Again, before any test, show that this data comes from a at least
+an approximately normal distribution (e.g, histogram and probability plot using `qqnorm` and `qqline`).
+```{r}
+times <- c(4, 8, 4, 4, 8, 6, 9, 7, 7, 10, 7, 8)
+t <- (6.83-7)/(1.99/sqrt(12))
+cat("t is: ",t)
+df <- length(times)-1
+p_value <- pt(t, df, lower.tail = TRUE)
+cat("\np_value is: ",p_value)
+cat("\nWe fail to reject Ho there is no sufficient evidence to conclude that the mean amount of sleep for adults is less than 7 hours.")
+```
+
+#### Problem 6
+A study was conducted to assess the effects that occur
+when children are exposed to cocaine before birth. Children were tested at age 4 for object
+assembly skill, which was described as “a task requiring visual-spatial skills related to mathematical
+competence.” The 190 children born to cocaine users had a mean of 7.3 and a standard
+deviation of 3.0. The 186 children not exposed to cocaine had a mean score of 8.2 with a standard
+deviation of 3.0. (The data are based on “Cognitive Outcomes of Preschool Children with
+Prenatal Cocaine Exposure,” by Singer et al., Journal of the American Medical Association,
+Vol. 291, No. 20.)
+
+- Use a 0.05 significance level to test the claim that prenatal cocaine exposure is associated
+with lower scores of four-year-old children on the test of object assembly.
+- Test the claim in previous by using a confidence interval (construct confidence interval and check if the null value is contained in it). 
+```{r}
+n <- 190
+mean <- 7.3
+sd <- 3.0
+n2 <- 186
+mean2 <- 8.2
+sd2 <- 3.0
+t = (mean-mean2)/(sqrt(((n-1)*sd^2+(n2-1)*sd2^2)/(n+n2-2)*(1/n+1/n2)))
+cat("test statistic is: ",t)
+t_c <- -1.649
+cat("\nFrom table, t_c is: ",t_c)
+cat("\nHo is rejected therefore at 0.05 significance level, we can support the claim that prenatal cocaine exposure is associated with lower scores of four year old children on the test of object assembly.")
+s <- (sd+sd2)/2
+df <- (n+n2-2)
+point_estimate <- mean - mean2
+margin <- 1.96*sqrt(.25/(df))
+lowerinterval <- point_estimate - margin
+cat("\n\nlowerinterval: ",lowerinterval)
+upperinterval <- point_estimate + margin
+cat("\nupperinterval: ",upperinterval)
+cat("\nNull value does not exist in confidence interval.")
+```
+
+
+
+#### Problem 7 
+We know that the mean weight of men is greater than the mean weight of women, and
+the mean height of men is greater than the mean height of women. A person’s body mass index
+(BMI) is computed by dividing weight (kg) by the square of height (m). Use the Data Set 1 “01 - Body Data.xlsx” 
+also available in
+Blackboard. (You may need to slide your data by gender before to properly separate male from female).
+Use a boxplot to help you decide if you need to conduct an equal or unequal variance test.
+
+- Use a 0.05 significance level to test the claim that females and males have the same mean
+BMI.
+- Construct the confidence interval that is appropriate for testing the claim previous part.
+- Do females and males appear to have the same mean BMI?
+
+```{r}
+library("xlsx")
+BMIdata <- read.xlsx("C:\\Users\\thera\\Downloads\\01 - Body Data.xlsx", sheetIndex = 1)
+#print(BMIdata)
+women <- BMIdata[BMIdata$GENDER..1.M. < 1,]
+womenBMIaverage <- sum(women$BMI)/(nrow(women))
+#print(women)
+cat("Here is the average woman bmi: ",womenBMIaverage)
+men <- BMIdata[BMIdata$GENDER..1.M. == 1,]
+menBMIaverage <- sum(men$BMI)/(nrow(men))
+cat("\nHere is the average man bmi: ",menBMIaverage)
+
+
+n <- nrow(women)
+n2 <- nrow(men)
+sd <- sd(women$BMI)
+sd2 <- sd(men$BMI)
+t <- (womenBMIaverage-menBMIaverage)/(sqrt(((n-1)*sd^2+(n2-1)*sd2^2)/(n+n2-2)*(1/n+1/n2)))
+cat("\n\ntest statistic is: ",t)
+df <- n+n2-2
+p_value <- pt(t, df, lower.tail = TRUE)
+cat("\nHere is t critical: ",p_value)
+cat("\naccept null hypothesis Ho")
+
+
+
+point_estimate <- womenBMIaverage - menBMIaverage
+margin <- 1.96*sqrt(.25/sum(BMIdata$BMI))
+lowerinterval <- point_estimate - margin
+cat("\n\nlowerinterval: ",lowerinterval)
+upperinterval <- point_estimate + margin
+cat("\nupperinterval: ",upperinterval)
+cat("\n\nYes, it seems that females and males have the same mean BMI.")
+```
+
+
+
+#### Problem 8
+
+The data "02 - Body Temperatures.xlsx" lists body temperatures of five subjects at 8 AM and at 12 AM. The data
+are matched pairs because each pair of temperatures is measured in the same person. Use the data with a 0.05
+significance level to test the claim that
+there is no difference in body temperatures measured at 8 AM and at 12 AM (day 1).
+HINT: You may need to slice your data to remove missing values (e.g., use is.na()) and you may need to 
+show empirical evidence that the difference are normally distributed. Use the following code to load 
+your data (you must change the directory path):
+
+```{r}
+library(readxl)
+Temperatures <- read_excel("C:\\Users\\thera\\Downloads\\02 - Body Temperatures.xlsx", 
+                           col_types = c("skip", "skip", "numeric", "numeric", "skip", "skip") )
+names(Temperatures) <-  c("day1_8am", "day1_12am")
+#print(Temperatures)
+colone <- Temperatures[complete.cases(Temperatures$day1_8am),]
+colone <- colone$day1_8am
+Firstsum <- sum(colone)/length(colone)
+cat("The average temperature at 8am is: ",Firstsum,"\n")
+coltwo <- Temperatures[complete.cases(Temperatures$day1_12am),]
+coltwo <- coltwo$day1_12am
+SecondSum <- sum(coltwo)/length(coltwo)
+cat("The average temperature at 12am is: ",SecondSum,"\n")
+
+n <- length(colone)
+n2 <- length(coltwo)
+sd <- sd(colone)
+sd2 <- sd(coltwo)
+t <- (Firstsum-SecondSum)/(sqrt(((n-1)*sd^2+(n2-1)*sd2^2)/(n+n2-2)*(1/n+1/n2)))
+cat("\n\ntest statistic is: ",t)
+df <- n+n2-2
+p_value <- pt(t, df, lower.tail = TRUE)
+cat("\nHere is t critical: ",p_value)
+cat("\naccept null hypothesis Ho")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

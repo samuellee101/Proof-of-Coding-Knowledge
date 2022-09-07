@@ -1,0 +1,43 @@
+---
+title: "Homework No 1"
+author:
+- UTRGV School of Mathematical and Statistical Sciences
+- STAT 3301 Applied Statistics
+- (Your Name here)
+output:  html_notebook
+---
+
+---
+
+
+>**Objective:** Use the R notebook to present homework reports in a standard and organized manner.
+
+
+- Read Chapters No 1 and No 2 of Book:	R Cookbook, 2nd Edition by Paul Teetor ISBN-10: 1492040681 https://rc2e.com/
+
+- Review the documentation for the function `seq`. Use the `seq` function in R to create a numeric
+vector with 150 values ranging from $0$ to $2\pi.$ Hint: check the parameter `length.out` in the
+`seq` function. Assign your result to a variable named `t`.
+
+- Compute the sine of `t` using the function `sin`. Assign your result to variable `fs.`
+
+- What is the proportion of values in `fs` that are strictly greater than 0?
+
+- What is the mean of `fs`?
+
+- Create a vector named `fs2` that corresponds with the square of `fs`. 
+
+- Create a Boolean vector named `idx` with entries `TRUE` where  `fs2>0.3`, an FALSE otherwise.
+
+- What is the mean of `fs` considering only entries with `fs2>0.3`? Hint: use `idx`
+
+- Use `plot` function to plot `fs` vs `t`
+
+- Improve the graphics according to your taste. Eg., look the documentation for `plot`, use parameters like `type`, `col`, `lwd`, etc. Include title (using `main`), `xlab` and `ylab`.
+
+---
+Start your homework here:
+
+
+
+

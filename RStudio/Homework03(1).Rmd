@@ -1,0 +1,289 @@
+---
+title: "Homework No 3"
+author:
+- UTRGV School of Mathematical and Statistical Sciences
+- STAT 3301 Applied Statistics
+- Samuel Lee
+output:  html_notebook
+---
+
+---
+
+>**Objective:** Use R studio to solve problems involving discrete random
+variables and applications to Binomial and Poisson distributions.
+
+---
+
+#### Problem 1
+
+Refer to the accompanying table, which describes results from groups of 8 births from 8
+different sets of parents. The random variable $X$ represents the number of girls among 8 children. (Hint: you may use R function such as `sum`, `*` to do your computations)
+
+```{r, echo=FALSE}
+m <- c(0:8, 0.005, 0.031, 0.109, 0.219, 0.273, 0.219, 0.109, 0.031, 0.004)
+m <- matrix(m, nrow = 2, byrow = T)
+df <- as.data.frame(m,  row.names=c('x', 'P(x)'))
+colnames(df) <- rep('', 9)
+knitr::kable(df)
+```
+
+* Show that $P(X)$ is a valid probability discrete probability mass function. (Hint: there are two conditions that need to be satisfied For one of these criteria you may use function `rowSums`)
+
+```{r}
+cat("Has to be non-negative. We can just check which P(x) is greater than 0 \n")
+cat(df[2,] > 0)
+cat("\n Since they are all true no values are less than 0 which means all values are non-negative. \n")
+cat("\n")
+cat("P(x) has to sum to 1. Here is what out P(x) sums to: \n")
+sum(df[2,])
+```
+
+
+* Display a graphical representation of the pmf.
+
+```{r}
+x <- 0:8
+plot(x,dbinom(x ,size = 9,prob = 1/9),type="h", ylab="PMF", xlab="number of births", 
+     main="Binomial Distribution PMF")
+```
+
+* Find the mean and standard deviation for the numbers of girls in 8 births.
+
+```{r}
+cat('Find the mean for the numbers of girls in 8 births: \n')
+mean_8girls <- sum(df[1,]*df[2,])
+print(mean_8girls)
+cat('Find the standard deviation for the numbers of girls in 8 births: \n')
+x_squared = df[1,]^2
+#print(x_squared)
+sqrt(sum(x_squared*df[2,])-(mean_8girls^2))
+
+```
+
+* Find the probability of getting 7 or more girls in 8 births.
+
+```{r}
+cat("The probability of getting 7 or more girls in 8 births: \n")
+df[2,8]+df[2,9]
+```
+
+* Find the probability of getting 6 or more girls in 8 births.
+
+```{r}
+cat("The probability of getting 6 or more girls in 8 births: \n")
+df[2,8]+df[2,9]+df[2,7]
+```
+
+* Find the probability of getting exactly 1 girl in 8 births.
+
+```{r}
+cat("Find the probability of getting exactly 1 girl in 8 births: \n")
+df[2,2]
+```
+
+* If the value $x^*$  is greater than the 0.95 quantile, we say that $x^*$ is significantly high. Is 6 a significantly high number? Is 7 a significantly high number?
+
+```{r}
+cat("Neither 6 nor 7 are greater than the 0.95 quartile.")
+cat("\n")
+8*.95
+cat("You have to be greater than 7.6, which is the number of entries times 0.95.")
+```
+
+
+
+
+#### Problem 2
+
+Let $X$ be a Bernoulli random variable such that $x=0$ with probability $1-p,$ and 
+$x=1$ with probability $p.$ In mathematical notation, this is the same as $X\sim \text{Bernoulli}(p).$
+
+* Compute $E(X^2).$
+
+```{r}
+cat("E(X^2) = (1^2)*p + (0^2)*(1-p) = p")
+```
+
+
+* Show that $V(X) =  p(1- p).$ (Hint: is short formula for variance)
+
+```{r}
+cat("Var(X) = E(X^2) - [E(X)]^2 = p - p^2 = p(1-p)")
+```
+
+
+* Compute $E(X^{101}).$
+
+```{r}
+cat("E(X^101) = (1^101)*p + (0^101)*(1-p) = p")
+```
+
+
+
+#### Problem 3
+
+The article “Should You Report That Fender-Bender?” (Consumer Reports, Sept. 2013: 15) reported that 7 in 10 auto accidents involve a single vehicle (the article recommended always reporting to the insurance company an accident involving multiple vehicles). Suppose 15 accidents are randomly selected. Use R functions to answer the following questions (Hint: Model this as a Bernoulli distribution):
+
+* What is the probability that at most 4 involve a single vehicle?
+
+```{r}
+cat("What is the probability that at most 4 involve a single vehicle? \n")
+pbinom(4,15,0.7)
+```
+
+* What is the probability that exactly 4 involve a single vehicle?
+
+```{r}
+cat("What is the probability that exactly 4 involve a single vehicle?\n")
+dbinom(4,15,0.7)
+```
+
+* What is the probability that exactly 6 involve multiple vehicles?
+
+```{r}
+cat("What is the probability that exactly 6 involve multiple vehicles? \n")
+dbinom(9,15,0.7)
+```
+
+* What is the probability that between 2 and 4, inclusive, involve a single vehicle?
+
+```{r}
+cat("What is the probability that between 2 and 4, inclusive, involve a single vehicle? \n")
+asdf <- pbinom(4,15,0.7) - pbinom(1,15,0.7)
+cat(asdf)
+```
+
+* What is the probability that at least 2 involve a single vehicle?
+
+```{r}
+cat("What is the probability that at least 2 involve a single vehicle? \n")
+1-pbinom(1,15,0.7)
+```
+
+
+
+#### Problem 4
+
+53% of adults use eyeglasses for vision correction (based on data
+from a Vision Council survey). Four adults are randomly selected.
+
+* Use the multiplication rule to find the probability that the first three use
+eyeglasses and the fourth does not use eyeglasses. That is, find P(EEEN), where E
+denotes an adult who uses eyeglasses and N denotes an adult who does not use
+eyeglasses. (Hint: Trials in Binomial experiments are independent)
+
+```{r}
+cat("Probability of P(EEEN)\n")
+gamerenergy <- .53*.53*.53*.47
+cat(gamerenergy)
+```
+
+
+* Beginning with EEEN, make a complete list of the different possible arrangements
+of three adults who use eyeglasses and one who does not use eyeglasses; then find
+the probability for each entry in the list.
+
+```{r}
+cat("Probability of P(EEEN)\n")
+cat(gamerenergy)
+cat("\nProbability of P(EENE)\n")
+cat(gamerenergy)
+cat("\nProbability of P(ENEE)\n")
+cat(gamerenergy)
+cat("\nProbability of P(NEEE)\n")
+cat(gamerenergy)
+```
+
+
+* Based on the preceding results, what is the probability of getting exactly three
+adults who use eyeglasses and one who does not? (Hint: Binomial outcomes are mutually exclusive)
+
+```{r}
+cat("exactly three adults and one who does not\n")
+cat(gamerenergy)
+```
+
+
+
+#### Problem 5
+
+In a recent year, there were 4229 births at NYU Langone Medical Center (based on
+data from the NYU Langone website). Assume that the number of births each day is
+about the same, and assume that the Poisson distribution is a suitable model.
+
+* Find $\mu,$ the mean number of births per day.
+
+```{r}
+cat("mu\n")
+mu <- 4229/365
+cat(mu)
+```
+
+
+* Find the probability that on a randomly selected day, there are exactly 10
+births. That is, find $P(10)$, where $P(x)$ is the probability of $x$ births in a day.
+
+```{r}
+cat("P(10)\n")
+p_10 = (mu^10)*(exp(-mu))/(factorial(10))
+cat(p_10)
+```
+
+
+  * Use the Poisson distribution formula
+  
+```{r}
+cat("P(10) using the Poisson distribution formula\n")
+p_10 = (mu^10)*(exp(-mu))/(factorial(10))
+cat(p_10)
+```
+  
+  * Use the an R function for this calculation.
+  
+```{r}
+cat("P(10) using R function: \n")
+dpois(x=10,lambda=mu)
+```
+  
+  
+
+#### Problem 6
+
+During the past 34 years, there were 56 cases of diphtheria in the United
+States. (Hint: Use the Poisson distribution)
+
+* Find the mean number of cases of diphtheria per year. Express the result with
+five decimal places.
+
+```{r}
+mew = 56/34
+cat("This is how many diphteria cases per year: \n")
+sprintf(mew, fmt = '%#.5f')
+```
+
+
+* Find the probability of no cases of diphtheria in a year.
+
+```{r}
+cat("Probability of no cases of diphtheria: \n")
+dpois(x=0,lambda=mew)
+```
+
+* Find the probability that the number of diphtheria cases in a year is 5 or
+fewer. If a year has more than 5 cases of diphtheria, is that a significantly high
+number?
+
+```{r}
+cat("Probability that number of cases is 5 or fewer: \n")
+dpois(x=0,lambda=mew)+dpois(x=1,lambda=mew)+dpois(x=2,lambda=mew)+dpois(x=3,lambda=mew)+dpois(x=4,lambda=mew)+dpois(x=5,lambda=mew)
+cat("\n If a year has more than 5 cases, is that a significantly high number? \n ")
+cat("\nYes because having 5 or fewer cases makes up 99.3%, meaning you only have 0.7% chance of getting more than 5 cases.")
+```
+
+
+
+
+
+
+
+

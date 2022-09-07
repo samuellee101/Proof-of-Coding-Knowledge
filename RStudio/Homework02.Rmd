@@ -1,0 +1,122 @@
+---
+title: "Homework No 2"
+author:
+- UTRGV School of Mathematical and Statistical Sciences
+- STAT 3301 Applied Statistics
+- Samuel Lee
+output:  html_notebook
+---
+
+---
+
+>**Objective:** Use the R notebook to present and describe data using descriptive statistics techniques.
+In particular, you will use the built in dataset `iris` for descriptive statistics.
+
+---
+
+
+* Use the R studio built in dataset `iris` for this homework. For example, use the command `df <- iris` to
+create a data frame called `df` which now contains the records of the iris data set.
+
+```{r}
+#complete
+df <- iris
+```
+
+
+* Use functions such as `dim` and answer how many data observations do this data set have? How many variables, and what type of variables they are (e.g., qualitative, etc)?'
+
+There are 5 type of variables. "Species" is the name of the plant, and is therefore qualitative. The rest are quantitative.
+
+```{r}
+#complete
+dim(df)
+str(df)
+```
+
+
+* What is the value of the Petal length for observation 42?
+
+According to the following code, Petal length for observation 42 is 1.3 (since R starts at 1, not 0).
+
+```{r}
+#complete
+petal_lengths <- df$Petal.Length
+petal_lengths[42]
+```
+
+
+* What is the Species for observation No 51?
+```{r}
+#complete
+species <- df$Species
+species[51]
+#according to this, species is versicolor
+```
+
+
+* Use the `head` and `summary` functions on `df` to have feeling of the data in front of you. Comment
+on your findings.
+
+```{r}
+#complete
+#according to this, Setosa, Versicolor, and Virginia are our three species. It appears we have data for 50 of each species.
+head(df)
+summary(df)
+```
+
+
+* Use diagrams of stem and leaves,  histogram and boxplot to investigate the distribution of the variable
+`Sepal.Width` across all Species, that is, for all observations. What are your comments?
+
+```{r}
+#complete
+width <- df$Sepal.Width
+
+#According to the stem plot, most plants are within 28 and 32
+stem(width)
+
+#According to the histogram, the most frequent widths of these plants is just under 3.0
+hist(width)
+
+#According to the boxplot, the Median is somewhere around 3.0, the upper quartile is around 3.3 and the lower quartile is around 2.7
+boxplot(width)
+```
+
+
+* Compute the mean of `Sepal.Width` for Species Setosa, Versicolor and Virginica. That is, you need to compute the mean (use the function `mean`) three times, one for Setora, one for Versicolor and one for Virginical. This also mean that you need to slice or index your data.
+
+```{r}
+#complete
+library(rlang)
+library(dplyr)
+output <- iris %>% 
+         group_by(Species) %>% 
+         summarize_each(funs(mean, sd))
+`colnames<-`(t(output[3]), as.character(output$Species))
+```
+
+
+* Use the `boxplot` function for all three species. You will have to see three boxplots in one plot. Are the mean you computed in previous point consistent?
+
+```{r}
+boxplot(output$Petal.Width_mean[1], output$Petal.Width_mean[2], output$Petal.Width_mean[3])
+
+#There appears to be an outlier.
+```
+
+
+* There seems to be an outlier for Sepal Width in setosa species. Plot a histogram of `Sepal.Widht` only
+for Setosa species. What is the exact value for this outlier? 
+
+```{r}
+#complete
+Temp = head(df$Sepal.Width , 50)
+hist(Temp)
+
+#According to summary, the outlier is a width of 4.400
+summary(Temp)
+```
+
+
+
