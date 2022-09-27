@@ -1,6 +1,9 @@
 # Samuel Lee ID: 20412795
 
 arr = input("Please type in your string: ")
+
+print("Postfix Problem: " + arr)
+
 arr = arr.split(" ")
 
 q = []
@@ -16,42 +19,39 @@ for index in range(0, len(arr)):
             break
         arr[index] = float(arr[index])
         q.append(arr[index])
-        print(arr[index] , " has been appended")
+        print("pushed ", arr[index])
     #perform operation if operator is found
     else:
+        if len(q) <= 1:
+            print("Error: not enough numbers to perform operation")
+            break
         if arr[index] == '+':
             a = q.pop()
-            print(a , " has been popped")
             b = q.pop()
-            print(b , " has been popped")
+            print("popped ", a, " ", b, " ", "+")
             c = a + b
-            print(c , " has been appended")
+            print("pushed ", c)
             q.append(c)
         if arr[index] == '-':
             a = q.pop()
-            print(a , " has been popped")
             b = q.pop()
-            print(b , " has been popped")
+            print("popped ", a, " ", b, " ", "-")
             c = b - a
-            print(c , " has been appended")
+            print("pushed ", c)
             q.append(c)
         if arr[index] == '/':
             a = q.pop()
-            print(a , " has been popped")
             b = q.pop()
-            print(b , " has been popped")
+            print("popped ", a, " ", b, " ", "/")
             c = b / a
-            print(c , " has been appended")
+            print("pushed ", c)
             q.append(c)
         if arr[index] == '*':
             a = q.pop()
-            print(a , " has been popped")
             b = q.pop()
-            print(b , " has been popped")
+            print("popped ", a, " ", b, " ", "*")
             c = a * b
-            print(c , " has been appended")
+            print("pushed ", c)
             q.append(c)
 
-
-print("This was your input list: " , arr)
-print("This is what the queue currently looks like: " , q)
+print("The result of this operation is->", q[len(q)-1])
