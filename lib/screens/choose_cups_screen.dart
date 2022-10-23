@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homebrew/screens/recommended_ratio_screen.dart';
-//import '../recommended_ratio_screen.dart';
+import 'recommended_ratio_screen.dart';
 import 'package:homebrew/utils/coffee_tools.dart';
 
 class ChooseCupsScreen extends StatefulWidget {
