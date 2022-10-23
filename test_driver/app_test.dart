@@ -112,7 +112,7 @@ void main() {
     });
   });
 
-  group('Back Button', () {
+  /*group('Back Button', () {
     //make up your own tests to check that the back button works
     test("should go back to device selection from choose cups screen",
         () async {
@@ -168,5 +168,5 @@ void main() {
           "What coffee maker are you using?");
     });
     //on every page
-  });
+  });*/
 }
