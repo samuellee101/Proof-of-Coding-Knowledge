@@ -285,4 +285,62 @@ void main() {
       //if you can restrict the keyboard to numbers only you can delete this test
     });
   });
+
+  group('Back Button', () {
+    //make up your own tests to check that the back button works
+    test("should go back to device selection from choose cups screen",
+        () async {
+      final btnBack = find.byValueKey('back-btn');
+      await driver.tap(btnBack);
+
+      final deviceSelection = find.byValueKey('device-selection-text');
+      expect(await driver.getText(deviceSelection),
+          "What coffee maker are you using?");
+    });
+
+    test(
+        "should go to main screen from recommended ratio screen using back button",
+        () async {
+      final deviceSelection = find.byValueKey('device-selection-text');
+      expect(await driver.getText(deviceSelection),
+          "What coffee maker are you using?");
+
+      final btnFrenchPress = find.byValueKey('btn-french-press');
+      await driver.tap(btnFrenchPress);
+
+      final btnContinue = find.byValueKey('continue-btn');
+      await driver.tap(btnContinue);
+
+      final cupsText = find.byValueKey('cup-text');
+      expect(await driver.getText(cupsText), "How many cups would you like?");
+
+      final cupsTextController = find.byValueKey('enter-cups');
+
+      await driver.tap(cupsTextController);
+      await driver.enterText('4');
+      await driver.waitFor(find.text('4'));
+
+      await driver.tap(btnContinue);
+
+      final recommendedText = find.byValueKey('recommended-text');
+      expect(await driver.getText(recommendedText), "Recommended");
+      final coffeeRatio = find.byValueKey('coffee-ratio');
+      expect(await driver.getText(coffeeRatio), "51g - course ground coffee");
+      final waterRatio = find.byValueKey('water-ratio');
+      expect(await driver.getText(waterRatio), "710g - water");
+      final enjoyText = find.byValueKey('enjoy-text');
+      expect(await driver.getText(enjoyText), "Enjoy your delicious coffee");
+
+      final btnBack = find.byValueKey('back-btn');
+      await driver.tap(btnBack);
+
+      expect(await driver.getText(cupsText), "How many cups would you like?");
+
+      await driver.tap(btnBack);
+
+      expect(await driver.getText(deviceSelection),
+          "What coffee maker are you using?");
+    });
+    //on every page
+  });
 }
