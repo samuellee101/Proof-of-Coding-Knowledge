@@ -6,6 +6,7 @@
 #works for 2 162
 #works for 4 42
 #works for 5 255 (personal test, not on the actual test)
+  #ignore, this should not work
 #does not work for 100 40021
 #after adding 'b portion' code works for 100 40021
 
@@ -29,6 +30,7 @@ for i in range(0,100):
   if res % a == 0:
     print(res)
     res = res / a
+    #should have been / 2
   if res % a != 0:
     print(res)
     res = (res - 1) / 10
