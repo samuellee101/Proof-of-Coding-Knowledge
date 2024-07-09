@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+	<feature automatic="selected" name="AlarmClockTask1"/>
+	<feature automatic="selected" manual="selected" name="UserInterface"/>
+	<feature automatic="selected" manual="selected" name="TimerDisplay"/>
+	<feature manual="selected" name="Miliseconds"/>
+	<feature manual="selected" name="ManualTimeChange"/>
+	<feature manual="selected" name="SyncWithComputer"/>
+	<feature automatic="selected" name="LightDarkMode"/>
+	<feature manual="selected" name="AlternateColor"/>
+	<feature automatic="selected" manual="selected" name="DifferentTimezones"/>
+	<feature manual="selected" name="Germany"/>
+	<feature manual="selected" name="USA"/>
+	<feature name="PacificDaylightTime"/>
+	<feature name="CentralDaylightTime"/>
+	<feature name="EasternDaylightTime"/>
+	<feature manual="selected" name="Korea"/>
+	<feature automatic="selected" manual="selected" name="Stopwatch"/>
+	<feature manual="selected" name="ResetStopwatch"/>
+	<feature automatic="selected" manual="selected" name="NewAlarm"/>
+	<feature manual="selected" name="DeleteOldAlarm"/>
+	<feature automatic="selected" manual="selected" name="SaveInformation"/>
+	<feature manual="selected" name="PDF"/>
+	<feature manual="selected" name="Text"/>
+	<feature manual="selected" name="Clear"/>
+	<feature manual="selected" name="SaveSettings"/>
+</configuration>

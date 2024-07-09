@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+	<feature automatic="selected" name="AlarmClockTask1"/>
+	<feature automatic="selected" name="User Interface"/>
+	<feature automatic="selected" name="Timer Display"/>
+	<feature manual="selected" name="Turn on/off miliseconds"/>
+	<feature manual="selected" name="Manually change timer"/>
+	<feature manual="selected" name="Sync/Desync with computer's time"/>
+	<feature name="Ask to sync on starting application"/>
+	<feature automatic="selected" name="Light/Dark mode button"/>
+	<feature manual="selected" name="Custom Color option"/>
+	<feature automatic="selected" manual="selected" name="Different timezones"/>
+	<feature manual="selected" name="Show/hide Germany"/>
+	<feature automatic="selected" manual="selected" name="Show/hide USA"/>
+	<feature manual="selected" name="Choose USA timezone"/>
+	<feature manual="selected" name="Show/hide Korea"/>
+	<feature automatic="selected" manual="selected" name="Stopwatch button"/>
+	<feature manual="selected" name="Reset stopwatch time button"/>
+	<feature automatic="selected" manual="selected" name="New Alarm"/>
+	<feature manual="selected" name="Delete old alarms"/>
+	<feature name="Save current information as file"/>
+	<feature name="PDF file"/>
+	<feature name="Text file"/>
+	<feature name="Clear button"/>
+	<feature name="Save settings button"/>
+</configuration>

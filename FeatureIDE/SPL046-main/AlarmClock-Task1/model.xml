@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<properties>
+		<graphics key="autolayoutconstraints" value="false"/>
+		<graphics key="legendautolayout" value="true"/>
+		<graphics key="showconstraints" value="true"/>
+		<graphics key="showshortnames" value="false"/>
+		<graphics key="layout" value="horizontal"/>
+		<graphics key="showcollapsedconstraints" value="true"/>
+		<graphics key="legendhidden" value="false"/>
+		<graphics key="layoutalgorithm" value="1"/>
+	</properties>
+	<struct>
+		<and abstract="true" mandatory="true" name="AlarmClockTask1">
+			<graphics key="collapsed" value="false"/>
+			<and mandatory="true" name="User Interface">
+				<and mandatory="true" name="Timer Display">
+					<feature name="Turn on/off miliseconds"/>
+					<feature name="Manually change timer"/>
+					<and name="Sync/Desync with computer's time">
+					<feature name="Ask to sync on starting application"/>
+				</and>
+			</and>
+			<and name="Light/Dark mode button">
+			<feature name="Custom Color option"/>
+		</and>
+		<and name="Different timezones">
+			<feature name="Show/hide Germany"/>
+			<and name="Show/hide USA">
+			<feature name="Choose USA timezone"/>
+		</and>
+		<feature name="Show/hide Korea"/>
+	</and>
+	<and name="Stopwatch button">
+		<feature name="Reset stopwatch time button"/>
+	</and>
+	<and name="New Alarm">
+		<feature name="Delete old alarms"/>
+	</and>
+	<or name="Save current information as file">
+		<feature name="PDF file"/>
+		<feature name="Text file"/>
+	</or>
+	<feature name="Clear button"/>
+	<feature name="Save settings button"/>
+</and>
+</and>
+</struct>
+</featureModel>

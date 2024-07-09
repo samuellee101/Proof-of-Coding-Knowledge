@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<featureModel>
+	<properties>
+		<graphics key="autolayoutconstraints" value="false"/>
+		<graphics key="legendautolayout" value="true"/>
+		<graphics key="showconstraints" value="true"/>
+		<graphics key="showshortnames" value="false"/>
+		<graphics key="layout" value="horizontal"/>
+		<graphics key="showcollapsedconstraints" value="true"/>
+		<graphics key="legendhidden" value="false"/>
+		<graphics key="layoutalgorithm" value="1"/>
+	</properties>
+	<struct>
+		<and abstract="true" mandatory="true" name="AlarmClockTask1">
+			<description>Placeholder.</description>
+			<graphics key="collapsed" value="false"/>
+			<and mandatory="true" name="User Interface">
+				<description>Interface which displays every feature underneath.</description>
+				<and mandatory="true" name="Timer Display">
+					<description>Displays time, which is core function of a alarm clock.</description>
+					<feature name="Turn on/off miliseconds">
+					<description>By default, timer display will display hour, minutes, seconds. By choosing this option user can show miliseconds as well.</description>
+				</feature>
+				<feature name="Manually change timer">
+					<description>User can manually change the time displayed.</description>
+				</feature>
+				<and name="Sync/Desync with computer's time">
+				<description>Ability for user to choose to sync or desync with the current time displayed on user's computer.</description>
+				<feature name="Ask to sync on starting application">
+					<description>Ask the user if they want to sync the timer display with the time currently displayed on their computer.</description>
+				</feature>
+			</and>
+		</and>
+		<and name="Light/Dark mode button">
+		<description>Option to make background color light and text color dark, and vice versa.</description>
+		<feature name="Custom Color option">
+			<description>Give user the ability to change the background color to a different color of their choice. Currently only going to support one shade of red, green and blue.</description>
+		</feature>
+	</and>
+	<and name="Different timezones">
+		<description>Displays different timezones.</description>
+		<feature name="Show/hide Germany">
+		<description>If enabled, user can see what the current timezone is for Germany.</description>
+	</feature>
+	<and name="Show/hide USA">
+	<description>If enabled, user can see what the current timezone is for USA.</description>
+	<graphics key="collapsed" value="false"/>
+	<feature name="Choose USA timezone">
+		<description>The USA actually has several different timezones, user can select which one.</description>
+	</feature>
+</and>
+<feature name="Show/hide Korea">
+<description>If enabled, user can see what the current timezone is for Korea.</description>
+</feature>
+</and>
+<and name="Stopwatch button">
+<description>Stopwatch button to measure time. First click starts timer, second click pauses timer.</description>
+<feature name="Reset stopwatch time button">
+<description>User can reset the time shown on stopwatch.</description>
+</feature>
+</and>
+<and name="New Alarm">
+<description>Create a new alarm set for a certain time.</description>
+<feature name="Delete old alarms">
+<description>Delete any alarms that already happened.</description>
+</feature>
+</and>
+<or name="Save current information as file">
+<description>Save the time displayed on stopwatch, timer display onto file format of user's choice.</description>
+<feature name="PDF file">
+<description>Saves as PDF.</description>
+</feature>
+<feature name="Text file">
+<description>Saves as .txt file.</description>
+</feature>
+</or>
+<feature name="Clear button">
+<description>Clear stopwatch timer, timezones, old alarms, alarms that have yet to go off.</description>
+</feature>
+<feature name="Save settings button">
+<description>Save the current settings of the alarm clock.</description>
+</feature>
+</and>
+</and>
+</struct>
+</featureModel>
