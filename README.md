@@ -1,3 +1,5 @@
+Instructions given for this Flutter assignment.
+
 # homebrew
 
 A new Flutter project.
