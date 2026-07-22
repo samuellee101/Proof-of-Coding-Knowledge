@@ -1,18 +1,10 @@
-Instructions given for this Flutter assignment.
+This was part of my CSCI 3341 Software Engineering II class at UTRGV.
 
-# homebrew
+This project is a simple Flutter mobile app that serves as a basic example of a modern UI application. Its main purpose is to demonstrate how a Flutter app is structured: the app starts in the main entry point, uses widgets to build the screen, and shows a small interactive feature where pressing a button increases a counter.
 
-A new Flutter project.
+For my Software Engineering II class, this helped me learn about:
 
-## Getting Started Testing CI
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+app architecture and component-based design,
+state management through widget state,
+UI layout and navigation basics,
+and how software projects can be organized into reusable modules and screens.
